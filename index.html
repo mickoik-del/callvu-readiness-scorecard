@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>Callvu Readiness Scorecard</title>
+    <style>
+        :root {
+            /* Main color requested */
+            --primary-color: #333F70;
+            /* Derived colors */
+            --primary-light: #4A5685;
+            --primary-faint: #E6E8F0;
+            --text-dark: #333;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Header & Logo */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 28px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-faint);
+            padding-bottom: 10px;
+            margin-top: 30px;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        p.intro {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Questions */
+        .question-group {
+            margin-bottom: 20px;
+        }
+
+        .question-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .question-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Custom Toggle Switch for Yes/No */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .label-text {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        /* Calculate Button */
+        .btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* Results Section */
+        #results {
+            display: none; /* Hidden by default */
+            margin-top: 40px;
+            padding: 30px;
+            border-radius: 8px;
+            background-color: var(--primary-faint);
+            border: 2px solid var(--primary-color);
+        }
+
+        .verdict-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .score-display {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .verdict-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .verdict-subtitle {
+            font-size: 18px;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .result-details h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .result-details ul {
+            margin-bottom: 20px;
+        }
+
+        .result-details li {
+            margin-bottom: 8px;
+        }
+
+        .action-box {
+            background-color: var(--white);
+            padding: 15px;
+            border-left: 5px solid var(--primary-color);
+            margin-top: 20px;
+        }
+
+        .action-box strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="logo.png" alt="Callvu Logo" class="logo">
+        <h1>Callvu Readiness Scorecard</h1>
+        [cite_start]<p class="intro">Evaluate whether your workflow is safe for agentic AI autonomy or requires deterministic compliance[cite: 1].</p>
+    </div>
+
+    <form id="scorecardForm">
+        
+        <h2>Risk & Compliance</h2>
+        <div class="question-group">
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Requires identity verification? [cite: 2]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Includes mandatory disclosures or signatures? [cite: 2]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Triggers regulated financial or healthcare actions? [cite: 2]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Requires an immutable audit trail? [cite: 2]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Zero tolerance for errors or deviation? [cite: 2]</span>
+            </div>
+        </div>
+
+        <h2>Accuracy & Determinism</h2>
+        <div class="question-group">
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Requires exact step order and strict validations? [cite: 2]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Branching logic where wrong branch creates liability? [cite: 2]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Triggers irreversible state changes? [cite: 2]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Fails expensively if a step is skipped? [cite: 2]</span>
+            </div>
+        </div>
+
+        <h2>Cross-System Complexity</h2>
+        <div class="question-group">
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Touches 3+ enterprise systems? [cite: 2]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Requires real-time data sync? [cite: 2]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Writes to systems of record? [cite: 2]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Breaks when one system is unavailable? [cite: 2]</span>
+            </div>
+        </div>
+
+        <h2>Exceptions & Failure Handling</h2>
+        <div class="question-group">
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Produces many edge cases requiring humans? [cite: 2]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Requires explicit escalation paths? [cite: 2, 3]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Demands predictable rollback behavior? [cite: 3]</span>
+            </div>
+        </div>
+
+        <h2>Security & Privacy</h2>
+        <div class="question-group">
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Handles PCI/PHI/PII? [cite: 3]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Captures secure docs or signatures? [cite: 3]</span>
+            </div>
+            <div class="question-item">
+                <label class="switch">
+                    <input type="checkbox" class="calc-check">
+                    <span class="slider"></span>
+                </label>
+                [cite_start]<span class="label-text">Includes policy enforcement with legal exposure? [cite: 3]</span>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button type="button" onclick="calculateReadiness()">Calculate Score</button>
+        </div>
+
+    </form>
+
+    <div id="results">
+        <div class="verdict-header">
+            <span class="score-display" id="totalScore">0</span>
+            <div class="verdict-title" id="verdictTitle">--</div>
+            <div class="verdict-subtitle" id="verdictSubtitle">--</div>
+        </div>
+        <div class="result-details">
+            <p id="interpretation">--</p>
+            <h3>Guidance:</h3>
+            <ul id="guidanceList">
+                </ul>
+            <div class="action-box">
+                <strong>Recommended Action:</strong>
+                <span id="recommendedAction">--</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateReadiness() {
+        [cite_start]// 1. Calculate Score based on Checked Boxes (Yes = 1 point) [cite: 1]
+        const checkboxes = document.querySelectorAll('.calc-check');
+        let score = 0;
+        checkboxes.forEach(box => {
+            if (box.checked) {
+                score += 1;
+            }
+        });
+
+        [cite_start]// 2. Determine Logic based on Source 1 Ranges [cite: 1]
+        let title, subtitle, interpretation, action;
+        let bullets = [];
+
+        if (score <= 3) {
+            // Score 0-3: Agent-Friendly
+            title = "Agent-Friendly";
+            subtitle = "No Callvu needed";
+            interpretation = "AI can execute with minimal guardrails";
+            bullets = [
+                "Probabilistic execution is typically safe",
+                "Standard automation or agentic AI can complete effectively",
+                "Minimal compliance exposure"
+            ];
+            action = "Let AI lead execution with lightweight supervision";
+        } else if (score <= 7) {
+            // Score 4-7: Hybrid Zone
+            title = "Hybrid Zone";
+            subtitle = "Callvu strongly recommended";
+            interpretation = "AI can start the workflow, deterministic systems should finish it";
+            bullets = [
+                "Some steps require strict ordering or validations",
+                "Cross-system updates introduce accuracy risk",
+                "Partial compliance requirements",
+                "Callvu can ensure correct completion and prevent rework"
+            ];
+            action = "AI interprets intent, Callvu enforces deterministic completion";
+        } else {
+            // Score 8+: High-Risk
+            title = "High-Risk";
+            subtitle = "Callvu required";
+            interpretation = "Autonomous AI should not own execution";
+            bullets = [
+                "Regulated outcomes, identity checks, signatures, disclosures",
+                "Multi-system orchestration",
+                "Zero tolerance for errors or deviations",
+                "These workflows fail without strict guardrails",
+                "Callvu’s Completion & Compliance Layer is essential"
+            ];
+            action = "Run AI assistively; let Callvu own execution to guarantee a compliant finish";
+        }
+
+        // 3. Update DOM with Calculated Results
+        document.getElementById('totalScore').innerText = score;
+        document.getElementById('verdictTitle').innerText = title;
+        document.getElementById('verdictSubtitle').innerText = subtitle;
+        document.getElementById('interpretation').innerText = interpretation;
+        document.getElementById('recommendedAction').innerText = action;
+
+        const listContainer = document.getElementById('guidanceList');
+        listContainer.innerHTML = ''; // Clear previous
+        bullets.forEach(txt => {
+            const li = document.createElement('li');
+            li.innerText = txt;
+            listContainer.appendChild(li);
+        });
+
+        // 4. Show Results and Scroll to them
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.style.display = 'block';
+        resultsDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
